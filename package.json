@@ -1,0 +1,19 @@
+{
+  "name": "@moontoad/s3",
+  "version": "0.1.1",
+  "description": "Utilities for Amazon S3 compatible services",
+  "author": {
+    "name": "Wallace Gibbon",
+    "email": "wallacegibbon@outlook.com"
+  },
+  "dependencies": {
+    "ali-oss": "^6.1.1",
+    "cos-nodejs-sdk-v5": "^2.5.12",
+    "scs-sdk": "^0.1.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wallacegibbon/s3.git"
+  },
+  "license": "MIT"
+}
