@@ -14,10 +14,15 @@ class S3Sina {
     this.bucket = bucketName
   }
 
-  async putFile(filePath, fsPosition) {
+  putStream(filePath, stream) {
+    const params = { ACL: 'public-read', Bucket: this.bucket, Key: filePath, Body: stream }
+    return this.putObject(params)
+  }
+
+  putFile(filePath, fsPosition) {
     const f = fs.createReadStream(path.join(fsPosition, filePath))
     const params = { ACL: 'public-read', Bucket: this.bucket, Key: filePath, Body: f }
-    return await this.putObject(params)
+    return this.putObject(params)
   }
 
   async listFiles() {
@@ -25,9 +30,9 @@ class S3Sina {
     return rawRet.Contents.map(({ Key }) => Key)
   }
 
-  async delFile(filePath) {
+  delFile(filePath) {
     const params = { Bucket: this.bucket, Key: filePath }
-    return await this.delObject(params)
+    return this.delObject(params)
   }
 
   putObject(params) {

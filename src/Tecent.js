@@ -11,12 +11,21 @@ class S3Tecent {
     this.bucket = bucketName
   }
 
-  async putFile(filePath, fsPosition) {
+  putStream(filePath, stream) {
+    const params = {
+      ACL: 'public-read', Bucket: this.bucket, Region: 'ap-shanghai', Key: filePath,
+      Body: stream
+    }
+    return this.putObjectAcl(params)
+  }
+
+  putFile(filePath, fsPosition) {
     const f = fs.createReadStream(path.join(fsPosition, filePath))
     const params = {
-      ACL: 'public-read', Bucket: this.bucket, Region: 'ap-shanghai', Key: filePath, Body: f
+      ACL: 'public-read', Bucket: this.bucket, Region: 'ap-shanghai', Key: filePath,
+      Body: f
     }
-    return await this.putObjectAcl(params)
+    return this.putObjectAcl(params)
   }
 
   async listFiles() {
@@ -24,9 +33,9 @@ class S3Tecent {
     return rawRet.Contents.map(({ Key }) => Key)
   }
 
-  async delFile(filePath) {
+  delFile(filePath) {
     const params = { Bucket: this.bucket, Key: filePath, Region: 'ap-shanghai' }
-    return await this.delObject(params)
+    return this.delObject(params)
   }
 
   putObjectAcl(params) {

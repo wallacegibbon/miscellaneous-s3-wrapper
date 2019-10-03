@@ -11,9 +11,13 @@ class S3Ali {
     this.s3 = new oss(Object.assign(config, { bucket: bucketName }))
   }
 
-  async putFile(filePath, fsPosition) {
+  putStream(filePath, stream) {
+    return this.s3.putStream(filePath, stream)
+  }
+
+  putFile(filePath, fsPosition) {
     const f = fs.createReadStream(path.join(fsPosition, filePath))
-    return await this.s3.putStream(filePath, f)
+    return this.s3.putStream(filePath, f)
   }
 
   async listFiles() {
@@ -25,8 +29,8 @@ class S3Ali {
     }
   }
 
-  async delFile(filePath) {
-    return await this.s3.delete(filePath)
+  delFile(filePath) {
+    return this.s3.delete(filePath)
   }
 }
 

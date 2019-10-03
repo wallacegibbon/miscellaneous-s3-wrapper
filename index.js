@@ -42,18 +42,34 @@ class S3 {
     const fStat = await lstat(`${fsPosition}/${currentPath}/${name}`)
     if (!fStat.isDirectory()) {
       console.log(`pushing file "${fPath}" to remote...`)
-      await this.s3.putFile(fPath, fsPosition)
+      await this.putFile(fPath, fsPosition)
     } else {
       await this.putDirectoryRec1(fsPosition, fPath)
     }
   }
 
   async clearBucket() {
-    const files = await this.s3.listFiles()
+    const files = await this.listFiles()
     for (let f of files) {
       console.log(`deleting file ${f}...`)
-      await this.s3.delFile(f)
+      await this.delFile(f)
     }
+  }
+
+  listFiles() {
+    return this.s3.listFiles()
+  }
+
+  putFile(fPath, fsPosition) {
+    return this.s3.putFile(fPath, fsPosition)
+  }
+
+  putStream(fPath, stream) {
+    return this.s3.putStream(fPath, stream)
+  }
+
+  delFile(filePath) {
+    return this.s3.delFile(filePath)
   }
 }
 
